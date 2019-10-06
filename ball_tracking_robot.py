@@ -8,7 +8,7 @@ import picamera.array
 import cv2
 import numpy
 from adafruit_motorkit import MotorKit
-kit = MotorKit()
+from picamera.array import PiRGBArray
 
 global running
 global Drive
@@ -162,7 +162,8 @@ class ImageCapture(threading.Thread):
         global camera
         global processor
         print ('Start the stream using the video port')
-        camera.capture_sequence(0, format='bgr', use_video_port=True)
+        rawCapture = PiRGBArray(camera)
+        camera.capture_sequence(rawCapture, format='bgr', use_video_port=True)
         print ('Terminating camera processing...')
         processor.terminated = True
         processor.join()
